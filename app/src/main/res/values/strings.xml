@@ -1,0 +1,13 @@
+<resources>
+    <string name="app_name">FirstKotlinApp</string>
+    
+    <string name="gank_io">GANK IO</string>
+    
+    <string name="fuli">福利</string>
+    <string name="android">Android</string>
+    <string name="ios">iOS</string>
+    <string name="xiuxishipin">休息视频</string>
+    <string name="tuozhanziyuan">拓展资源</string>
+    <string name="qianduan">前端</string>
+    <string name="all">All</string>
+</resources>
