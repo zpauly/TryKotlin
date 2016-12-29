@@ -4,7 +4,6 @@ import android.support.v4.util.SparseArrayCompat
 import android.support.v7.widget.RecyclerView
 import android.view.View
 import android.view.ViewGroup
-import com.zpauly.firstkotlinapp.entities.Data
 import com.zpauly.firstkotlinapp.entities.DataResult
 import com.zpauly.trykotlin.Constants
 import java.util.*
@@ -12,7 +11,7 @@ import java.util.*
 /**
  * Created by zpauly on 2016/12/28.
  */
-class DataAdapter(listener: (View) -> Unit) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
+class DataAdapter(listener: (View, String?) -> Unit) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
     private var items = ArrayList<DataType>()
     private var delegateAdapters = SparseArrayCompat<ViewTypeDelegateAdapter>()
@@ -24,8 +23,8 @@ class DataAdapter(listener: (View) -> Unit) : RecyclerView.Adapter<RecyclerView.
     init {
         delegateAdapters.put(Constants.VIEW_TYPE_LOADING, LoadingDelegateAdapter())
         delegateAdapters.put(Constants.VIEW_TYPE_DATA, DataDelegateAdatper(object : DataDelegateAdatper.OnViewClickedListener {
-            override fun onViewClicked(view: View) {
-                listener(view)
+            override fun onViewClicked(view: View, url: String?) {
+                listener(view, url)
             }
         }))
         items.add(loadingItem)

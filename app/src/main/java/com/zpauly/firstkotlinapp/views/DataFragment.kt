@@ -1,8 +1,8 @@
 package com.zpauly.trykotlin.views
 
+import android.content.Intent
 import android.os.Bundle
 import android.support.v7.widget.LinearLayoutManager
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -12,6 +12,7 @@ import com.zpauly.firstkotlinapp.adapter.DataAdapter
 import com.zpauly.firstkotlinapp.entities.Data
 import com.zpauly.firstkotlinapp.net.Apis
 import com.zpauly.firstkotlinapp.utils.LoadMoreScrollListener
+import com.zpauly.firstkotlinapp.views.DetailsActivity
 import com.zpauly.trykotlin.utils.inflate
 import com.zpauly.trykotlin.utils.showSnackbar
 import kotlinx.android.synthetic.main.recyclerview.*
@@ -75,18 +76,7 @@ class DataFragment : BaseFragment() {
 
         initAdapter()
 
-        initSwipeRefreshLayout()
-
         getData()
-    }
-
-    private fun initSwipeRefreshLayout() {
-        swipeRefreshLayout.setColorSchemeResources(R.color.colorAccent)
-        swipeRefreshLayout.measure(View.MEASURED_HEIGHT_STATE_SHIFT, View.MEASURED_SIZE_MASK)
-        swipeRefreshLayout.setOnRefreshListener {
-            pageId = 1
-            getData()
-        }
     }
 
     private fun getData() {
@@ -110,18 +100,11 @@ class DataFragment : BaseFragment() {
     private fun createSubscriber(): Subscriber<Data> = object : Subscriber<Data>() {
             override fun onCompleted() {
                 pageId++
-                if (swipeRefreshLayout.isRefreshing) {
-                    (recyclerView.adapter as DataAdapter).clear()
-                    swipeRefreshLayout.isRefreshing = false
-                }
             }
 
             override fun onError(e: Throwable?) {
                 showSnackbar(recyclerView, "error")
                 e?.printStackTrace()
-                if (swipeRefreshLayout.isRefreshing) {
-                    swipeRefreshLayout.isRefreshing = false
-                }
             }
 
             override fun onNext(t: Data?) {
@@ -132,6 +115,11 @@ class DataFragment : BaseFragment() {
 
     private fun initAdapter() {
         recyclerView.adapter = DataAdapter {
+            view, url ->
+            val intent = Intent()
+            intent.setClass(context, DetailsActivity::class.java)
+            intent.putExtra(DetailsActivity.DETAILS_LINK, url)
+            startActivity(intent)
         }
     }
 }

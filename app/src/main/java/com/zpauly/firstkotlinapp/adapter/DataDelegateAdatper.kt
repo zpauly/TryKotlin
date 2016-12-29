@@ -21,7 +21,7 @@ class DataDelegateAdatper(val listener: OnViewClickedListener) : ViewTypeDelegat
     }
 
     interface OnViewClickedListener {
-        fun onViewClicked(view: View)
+        fun onViewClicked(view: View, url: String?)
     }
 
     inner class DataViewHolder(itemView: View?) : RecyclerView.ViewHolder(itemView) {
@@ -30,7 +30,7 @@ class DataDelegateAdatper(val listener: OnViewClickedListener) : ViewTypeDelegat
             data_time_TV.text = item?.publishedAt
             data_who_TV.text = item?.who
 
-            setOnClickListener { view -> listener.onViewClicked(view) }
+            setOnClickListener { view -> listener.onViewClicked(view, item?.url) }
         }
     }
 }
